@@ -28,10 +28,9 @@ func _ready() -> void:
 func _activate_snare() -> void:
 	if not field_mesh:
 		return
-	# Overshoot snap animation (Codrops style)
-	field_mesh.scale = Vector3(0.1, 1.0, 0.1)
+	field_mesh.scale = Vector3(1.0, 1.0, 1.0)
 	var tween: Tween = create_tween()
-	tween.tween_property(field_mesh, "scale", Vector3(9.0, 1.0, 9.0), 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(field_mesh, "scale", Vector3(9.0, 1.0, 9.0), 0.18).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(field_mesh, "scale", Vector3(8.0, 1.0, 8.0), 0.1)
 
 	await get_tree().create_timer(duration).timeout
@@ -54,6 +53,9 @@ func _physics_process(delta: float) -> void:
 
 func _detonate() -> void:
 	elapsed = true
+	var player := get_tree().get_first_node_in_group("player") as Player
+	if player:
+		player.add_camera_shake(0.5)
 	if light:
 		light.light_energy = 5.0
 		light.light_color = Color(1.0, 0.8, 1.0)

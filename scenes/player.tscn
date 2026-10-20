@@ -1,25 +1,93 @@
-[gd_scene load_steps=6 format=3 uid="uid://c_player_01"]
+[gd_scene load_steps=19 format=3 uid="uid://c_player_01"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/player_animator.gd" id="2_anim"]
+[ext_resource type="Shader" path="res://shaders/ice_crystal.gdshader" id="3_ice_sh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
-radius = 0.4
-height = 1.8
+radius = 0.45
+height = 1.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
-albedo_color = Color(0.1, 0.12, 0.18, 1)
-emission_enabled = true
-emission = Color(0, 0.8, 1, 1)
-emission_energy_multiplier = 0.8
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_armor"]
+albedo_color = Color(0.08, 0.09, 0.14, 1)
+metallic = 0.8
 roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.5, 1)
+emission_energy_multiplier = 0.5
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
-material = SubResource("StandardMaterial3D_body")
-radius = 0.4
-height = 1.8
+[sub_resource type="BoxMesh" id="BoxMesh_torso"]
+material = SubResource("StandardMaterial3D_armor")
+size = Vector3(0.55, 0.65, 0.35)
 
-[sub_resource type="PrismMesh" id="PrismMesh_visor"]
-size = Vector3(0.5, 0.3, 0.3)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow_cyan"]
+albedo_color = Color(0, 0.9, 1, 1)
+emission_enabled = true
+emission = Color(0, 0.9, 1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_heart"]
+material = SubResource("StandardMaterial3D_glow_cyan")
+size = Vector3(0.2, 0.25, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cape"]
+albedo_color = Color(0.04, 0.05, 0.08, 1)
+roughness = 0.7
+emission_enabled = true
+emission = Color(0, 0.6, 0.8, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_cape"]
+material = SubResource("StandardMaterial3D_cape")
+size = Vector3(0.65, 1.2, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+material = SubResource("StandardMaterial3D_armor")
+size = Vector3(0.35, 0.38, 0.35)
+
+[sub_resource type="BoxMesh" id="BoxMesh_visor"]
+material = SubResource("StandardMaterial3D_glow_cyan")
+size = Vector3(0.32, 0.08, 0.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_horns"]
+material = SubResource("StandardMaterial3D_glow_cyan")
+size = Vector3(0.4, 0.25, 0.15)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_limb"]
+material = SubResource("StandardMaterial3D_armor")
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.35
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_focus"]
+render_priority = 0
+shader = ExtResource("3_ice_sh")
+shader_parameter/deep_color = Color(0.05, 0.4, 0.8, 1)
+shader_parameter/surface_color = Color(0.7, 0.95, 1, 1)
+shader_parameter/rim_color = Color(1, 1, 1, 1)
+shader_parameter/rim_power = 2.0
+shader_parameter/roughness_val = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_focus"]
+material = SubResource("ShaderMaterial_focus")
+radius = 0.15
+height = 0.3
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring1"]
+material = SubResource("StandardMaterial3D_glow_cyan")
+inner_radius = 0.68
+outer_radius = 0.72
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring2"]
+albedo_color = Color(0.8, 0.4, 1, 1)
+emission_enabled = true
+emission = Color(0.8, 0.4, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring2"]
+material = SubResource("StandardMaterial3D_ring2")
+inner_radius = 0.82
+outer_radius = 0.85
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 2
@@ -27,18 +95,88 @@ collision_mask = 1
 script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
 shape = SubResource("CapsuleShape3D_player")
 
 [node name="VisualModel" type="Node3D" parent="."]
+script = ExtResource("2_anim")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="VisualModel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_player")
+[node name="Torso" type="Node3D" parent="VisualModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
 
-[node name="VisorMesh" type="MeshInstance3D" parent="VisualModel"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.4, -0.35)
-mesh = SubResource("PrismMesh_visor")
+[node name="ChestMesh" type="MeshInstance3D" parent="VisualModel/Torso"]
+mesh = SubResource("BoxMesh_torso")
+
+[node name="ArcaneHeart" type="MeshInstance3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, -0.19)
+mesh = SubResource("PrismMesh_heart")
+
+[node name="CoreLight" type="OmniLight3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.3)
+light_color = Color(0.2, 0.85, 1, 1)
+light_energy = 1.8
+omni_range = 5.0
+
+[node name="Cape" type="Node3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0.18)
+
+[node name="CapeMesh" type="MeshInstance3D" parent="VisualModel/Torso/Cape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+mesh = SubResource("BoxMesh_cape")
+
+[node name="Head" type="Node3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+
+[node name="HelmMesh" type="MeshInstance3D" parent="VisualModel/Torso/Head"]
+mesh = SubResource("BoxMesh_head")
+
+[node name="Visor" type="MeshInstance3D" parent="VisualModel/Torso/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.16)
+mesh = SubResource("BoxMesh_visor")
+
+[node name="CrownHorns" type="MeshInstance3D" parent="VisualModel/Torso/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0)
+mesh = SubResource("PrismMesh_horns")
+
+[node name="LeftArmPivot" type="Node3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, 0.25, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="VisualModel/Torso/LeftArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0)
+mesh = SubResource("CylinderMesh_limb")
+
+[node name="FocusOrb" type="MeshInstance3D" parent="VisualModel/Torso/LeftArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, -0.4, -0.15)
+mesh = SubResource("SphereMesh_focus")
+
+[node name="RightArmPivot" type="Node3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38, 0.25, 0)
+
+[node name="UpperArm" type="MeshInstance3D" parent="VisualModel/Torso/RightArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18, 0)
+mesh = SubResource("CylinderMesh_limb")
+
+[node name="RunicRing1" type="MeshInstance3D" parent="VisualModel/Torso"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("TorusMesh_ring1")
+
+[node name="RunicRing2" type="MeshInstance3D" parent="VisualModel/Torso"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("TorusMesh_ring2")
+
+[node name="LeftLegPivot" type="Node3D" parent="VisualModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16, 0.65, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="VisualModel/LeftLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
+mesh = SubResource("CylinderMesh_limb")
+
+[node name="RightLegPivot" type="Node3D" parent="VisualModel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16, 0.65, 0)
+
+[node name="LegMesh" type="MeshInstance3D" parent="VisualModel/RightLegPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.32, 0)
+mesh = SubResource("CylinderMesh_limb")
 
 [node name="CameraMount" type="Node3D" parent="."]
 top_level = true

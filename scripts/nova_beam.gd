@@ -28,6 +28,9 @@ func execute(origin: Vector3, target: Vector3) -> void:
 		beam_mesh.position = Vector3(0.0, 0.0, beam_dist * 0.5)
 
 	is_active = true
+	var player := get_tree().get_first_node_in_group("player") as Player
+	if player:
+		player.add_camera_shake(0.4)
 	var timer := get_tree().create_timer(beam_duration)
 	await timer.timeout
 	is_active = false

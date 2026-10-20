@@ -45,6 +45,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	_resolve_nodes()
+	SoundManager.init_audio()
 	if player:
 		player.health_changed.connect(_on_player_health_changed)
 		player.dash_used.connect(func(cd: float):
@@ -149,32 +150,38 @@ func _disarm() -> void:
 func _fire_armed_ability() -> void:
 	if not player:
 		return
+	player.notify_cast_fired()
 	var origin: Vector3 = player.global_position
 	var target: Vector3 = player.ground_aim_point
 
 	match armed_slot:
 		ArmedSlot.FROST:
 			frost_cd = FROST_MAX_CD
+			SoundManager.play_sound(self, SoundManager.sfx_frost, -2.0)
 			var lance := frost_lance_scene.instantiate() as FrostLance
 			_add_effect(lance)
 			lance.execute(origin, target)
 		ArmedSlot.STORM:
 			storm_cd = STORM_MAX_CD
+			SoundManager.play_sound(self, SoundManager.sfx_storm, -1.0)
 			var storm := storm_lance_scene.instantiate() as StormLance
 			_add_effect(storm)
 			storm.execute(origin, target)
 		ArmedSlot.CINDER:
 			cinder_cd = CINDER_MAX_CD
+			SoundManager.play_sound(self, SoundManager.sfx_cinder, 2.0)
 			var cinder := cinder_fall_scene.instantiate() as CinderFall
 			_add_effect(cinder)
 			cinder.execute(origin, target)
 		ArmedSlot.BEAM:
 			beam_cd = BEAM_MAX_CD
+			SoundManager.play_sound(self, SoundManager.sfx_beam, 0.0)
 			var beam := nova_beam_scene.instantiate() as NovaBeam
 			_add_effect(beam)
 			beam.execute(origin, target)
 		ArmedSlot.SNARE:
 			snare_cd = SNARE_MAX_CD
+			SoundManager.play_sound(self, SoundManager.sfx_snare, 1.0)
 			var snare := voltaic_snare_scene.instantiate() as VoltaicSnare
 			_add_effect(snare)
 			var delta := target - origin
@@ -184,6 +191,7 @@ func _fire_armed_ability() -> void:
 			snare.global_position = origin + dir * dist
 		ArmedSlot.CROWN:
 			crown_cd = CROWN_MAX_CD
+			SoundManager.play_sound(self, SoundManager.sfx_frost, 1.0)
 			var crown := glacial_crown_scene.instantiate() as GlacialCrown
 			_add_effect(crown)
 			var delta := target - origin

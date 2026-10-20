@@ -35,6 +35,9 @@ func _update_flight(t: float) -> void:
 
 func _impact() -> void:
 	global_position = target_pos
+	var player := get_tree().get_first_node_in_group("player") as Player
+	if player:
+		player.add_camera_shake(0.7)
 	if light:
 		light.light_energy = 8.0
 		light.omni_range = 10.0
