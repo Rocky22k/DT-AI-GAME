@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://c_aim_ind_01"]
+
+[ext_resource type="Script" path="res://scripts/aim_indicator.gd" id="1_aim"]
+[ext_resource type="Shader" path="res://shaders/aim_line.gdshader" id="2_line_sh"]
+[ext_resource type="Shader" path="res://shaders/aim_circle.gdshader" id="3_circle_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_line"]
+render_priority = 1
+shader = ExtResource("2_line_sh")
+shader_parameter/arrow_color = Color(0.2, 0.8, 1, 0.85)
+shader_parameter/arrow_length = 10.0
+shader_parameter/shaft_width = 0.6
+shader_parameter/chevron_speed = 3.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_line"]
+material = SubResource("ShaderMaterial_line")
+size = Vector2(1.2, 1)
+orientation = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_circle"]
+render_priority = 1
+shader = ExtResource("3_circle_sh")
+shader_parameter/circle_color = Color(0.8, 0.3, 1, 0.85)
+shader_parameter/outer_radius = 0.48
+shader_parameter/ring_thickness = 0.05
+shader_parameter/pulse_speed = 4.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_circle"]
+material = SubResource("ShaderMaterial_circle")
+size = Vector2(1, 1)
+orientation = 1
+
+[node name="AimIndicator" type="Node3D"]
+script = ExtResource("1_aim")
+
+[node name="LineQuad" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("QuadMesh_line")
+
+[node name="CircleQuad" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_circle")
