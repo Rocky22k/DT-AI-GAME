@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://c_snare_01"]
+
+[ext_resource type="Script" path="res://scripts/voltaic_snare.gd" id="1_snare"]
+[ext_resource type="Shader" path="res://shaders/electric_field.gdshader" id="2_elec_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_field"]
+render_priority = 1
+shader = ExtResource("2_elec_sh")
+shader_parameter/lightning_color = Color(0.7, 0.3, 1, 0.95)
+shader_parameter/rotation_speed = 2.5
+
+[sub_resource type="QuadMesh" id="QuadMesh_field"]
+material = SubResource("ShaderMaterial_field")
+size = Vector2(1, 1)
+orientation = 1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_snare"]
+height = 2.0
+radius = 4.0
+
+[node name="VoltaicSnare" type="Area3D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_snare")
+
+[node name="FieldMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0.03, 0)
+mesh = SubResource("QuadMesh_field")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_snare")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+light_color = Color(0.75, 0.3, 1, 1)
+light_energy = 2.0
+omni_range = 6.0
