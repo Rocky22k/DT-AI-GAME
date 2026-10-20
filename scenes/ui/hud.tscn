@@ -1,0 +1,184 @@
+[gd_scene load_steps=3 format=3 uid="uid://c_hud_01"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp"]
+bg_color = Color(0, 0.8, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 80.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TopRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/TopRow"]
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp")
+value = 100.0
+show_percentage = false
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WaveLabel" type="Label" parent="MarginContainer/VBoxContainer/TopRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "WAVE 1 — REMAINING: 6"
+
+[node name="ControlsHint" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.85, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "[Q/1] Frost  [E/2] Storm  [R/3] Cinder  [F/4] Beam  [V/5] Snare  [X/6] Crown  |  [P] Pause  [C] Clear  [G] Sliders"
+
+[node name="BottomBar" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -380.0
+offset_top = -100.0
+offset_right = 380.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 24
+
+[node name="HBox" type="HBoxContainer" parent="BottomBar"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="FrostIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/FrostIcon"]
+layout_mode = 2
+text = "[Q] Frost"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/FrostIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="StormIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/StormIcon"]
+layout_mode = 2
+text = "[E] Storm"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/StormIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="CinderIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/CinderIcon"]
+layout_mode = 2
+text = "[R] Cinder"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/CinderIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="BeamIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/BeamIcon"]
+layout_mode = 2
+text = "[F] Beam"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/BeamIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="SnareIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/SnareIcon"]
+layout_mode = 2
+text = "[V] Snare"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/SnareIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="CrownIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/CrownIcon"]
+layout_mode = 2
+text = "[X] Crown"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/CrownIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="DashIcon" type="VBoxContainer" parent="BottomBar/HBox"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="BottomBar/HBox/DashIcon"]
+layout_mode = 2
+text = "[Space] Dash"
+horizontal_alignment = 1
+
+[node name="CDLabel" type="Label" parent="BottomBar/HBox/DashIcon"]
+layout_mode = 2
+text = "READY"
+horizontal_alignment = 1
+
+[node name="Overlay" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Overlay"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Overlay/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "VICTORY ACHIEVED"
+horizontal_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="Overlay/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Press [R] to Restart"
+horizontal_alignment = 1
