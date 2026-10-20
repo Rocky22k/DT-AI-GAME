@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://c_arena_01"]
+
+[ext_resource type="Script" path="res://scripts/arena.gd" id="1_arena"]
+[ext_resource type="Shader" path="res://shaders/arena_floor.gdshader" id="2_floor_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_floor"]
+render_priority = 0
+shader = ExtResource("2_floor_sh")
+shader_parameter/floor_color = Color(0.03, 0.03, 0.05, 1)
+shader_parameter/grid_color = Color(0.1, 0.3, 0.5, 0.4)
+shader_parameter/border_color = Color(0, 0.8, 1, 1)
+shader_parameter/arena_radius = 24.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_floor"]
+material = SubResource("ShaderMaterial_floor")
+top_radius = 24.5
+bottom_radius = 24.5
+height = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_floor"]
+height = 0.2
+radius = 24.5
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 1
+background_color = Color(0.015, 0.015, 0.02, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.2, 0.25, 0.35, 1)
+ambient_light_energy = 0.5
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.25
+glow_blend_mode = 0
+
+[node name="Arena" type="Node3D"]
+script = ExtResource("1_arena")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 15, 0)
+light_color = Color(0.85, 0.9, 1, 1)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="FloorStaticBody" type="StaticBody3D" parent="."]
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FloorStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("CylinderMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("CylinderShape3D_floor")
