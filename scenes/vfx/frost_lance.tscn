@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c_frost_l_01"]
+
+[ext_resource type="Script" path="res://scripts/frost_lance.gd" id="1_lance"]
+
+[node name="FrostLance" type="Node3D"]
+script = ExtResource("1_lance")

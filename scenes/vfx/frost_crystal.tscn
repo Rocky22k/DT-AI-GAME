@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://c_frost_c_01"]
+
+[ext_resource type="Script" path="res://scripts/frost_crystal.gd" id="1_cryst"]
+[ext_resource type="Shader" path="res://shaders/ice_crystal.gdshader" id="2_ice_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crystal"]
+render_priority = 0
+shader = ExtResource("2_ice_sh")
+shader_parameter/deep_color = Color(0.05, 0.3, 0.6, 1)
+shader_parameter/surface_color = Color(0.6, 0.9, 1, 1)
+shader_parameter/rim_color = Color(1, 1, 1, 1)
+shader_parameter/rim_power = 2.5
+shader_parameter/roughness_val = 0.15
+
+[sub_resource type="PrismMesh" id="PrismMesh_crystal"]
+material = SubResource("ShaderMaterial_crystal")
+size = Vector3(1, 2, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_crystal"]
+height = 2.5
+radius = 0.8
+
+[node name="FrostCrystal" type="Area3D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_cryst")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("PrismMesh_crystal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+shape = SubResource("CylinderShape3D_crystal")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(0.4, 0.85, 1, 1)
+light_energy = 0.0
+omni_range = 4.0
