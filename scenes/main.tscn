@@ -1,0 +1,24 @@
+[gd_scene load_steps=8 format=3 uid="uid://c_main_01"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/arena.tscn" id="2_arena"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/aim_indicator.tscn" id="4_aim"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/vfx_editor.tscn" id="6_vfx_ed"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="Arena" parent="." instance=ExtResource("2_arena")]
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="AimIndicator" parent="." instance=ExtResource("4_aim")]
+
+[node name="ActiveEffects" type="Node3D" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="VFXEditor" parent="." instance=ExtResource("6_vfx_ed")]

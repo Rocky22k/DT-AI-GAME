@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c_nova_b_01"]
+
+[ext_resource type="Script" path="res://scripts/nova_beam.gd" id="1_beam"]
+[ext_resource type="Shader" path="res://shaders/beam_tube.gdshader" id="2_beam_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_beam"]
+render_priority = 2
+shader = ExtResource("2_beam_sh")
+shader_parameter/core_color = Color(1, 1, 1, 1)
+shader_parameter/sheath_color = Color(0.1, 0.9, 1, 0.9)
+shader_parameter/coil_color = Color(1, 0.8, 0.2, 0.9)
+shader_parameter/flow_speed = 8.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_beam"]
+material = SubResource("ShaderMaterial_beam")
+size = Vector2(1, 1)
+orientation = 1
+
+[node name="NovaBeam" type="Node3D"]
+script = ExtResource("1_beam")
+
+[node name="BeamMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_beam")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.2, 0.9, 1, 1)
+light_energy = 5.0
+omni_range = 10.0

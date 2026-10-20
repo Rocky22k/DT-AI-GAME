@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://c_cinder_f_01"]
+
+[ext_resource type="Script" path="res://scripts/cinder_fall.gd" id="1_cinder"]
+[ext_resource type="Shader" path="res://shaders/cinder_meteor.gdshader" id="2_cinder_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_meteor"]
+render_priority = 0
+shader = ExtResource("2_cinder_sh")
+shader_parameter/crust_color = Color(0.08, 0.05, 0.03, 1)
+shader_parameter/lava_color = Color(1, 0.35, 0.05, 1)
+shader_parameter/crack_scale = 12.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_meteor"]
+material = SubResource("ShaderMaterial_meteor")
+radius = 0.6
+height = 1.2
+
+[node name="CinderFall" type="Node3D"]
+script = ExtResource("1_cinder")
+
+[node name="MeteorMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_meteor")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.5, 0.1, 1)
+light_energy = 3.0
+omni_range = 6.0

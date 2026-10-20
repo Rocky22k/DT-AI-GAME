@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c_storm_l_01"]
+
+[ext_resource type="Script" path="res://scripts/storm_lance.gd" id="1_storm"]
+[ext_resource type="Shader" path="res://shaders/lightning_bolt.gdshader" id="2_bolt_sh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bolt"]
+render_priority = 2
+shader = ExtResource("2_bolt_sh")
+shader_parameter/bolt_core_color = Color(1, 1, 1, 1)
+shader_parameter/bolt_glow_color = Color(0.3, 0.7, 1, 0.9)
+shader_parameter/jitter_amount = 0.8
+shader_parameter/jitter_speed = 35.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_bolt"]
+material = SubResource("ShaderMaterial_bolt")
+size = Vector2(1, 1)
+orientation = 1
+
+[node name="StormLance" type="Node3D"]
+script = ExtResource("1_storm")
+
+[node name="BoltMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_bolt")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.4, 0.75, 1, 1)
+light_energy = 4.0
+omni_range = 8.0
